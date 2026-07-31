@@ -9,7 +9,7 @@ def main():
     cpu.init_fontset()
 
     # Path to your rom
-    rom_file = "C:\\Users\\alex\\Downloads\\Pong 2 (Pong hack) [David Winter, 1997].ch8"
+    rom_file = ""
     cpu.load_rom(rom_file)
 
     # 2. Init pygame
