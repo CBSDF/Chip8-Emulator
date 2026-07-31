@@ -39,5 +39,6 @@ run this command
 
 *Running Pong (David Winter, 1997)*
 
-## NOTE 
-As i say emulator have some issues so game can lag
+## CHANGELOG 
+- improved font
+- update rendering
