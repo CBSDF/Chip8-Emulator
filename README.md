@@ -35,7 +35,7 @@ run this command
 ```
 ## SCREENSHOTS
 
-![Pong](screenshots/pong.png)
+![Pong](pong.png)
 
 *Running Pong (David Winter, 1997)*
 
