@@ -14,7 +14,7 @@ def main():
 
     # 2. Init pygame
     pygame.init()
-    # Оriginal screen to small so we make it bigger
+    # Оriginal screen is small so we make it bigger
     SCALE = 10
     screen = pygame.display.set_mode((64 * SCALE, 32 * SCALE))
     pygame.display.set_caption("Python CHIP-8 Emulator")
