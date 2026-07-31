@@ -4,87 +4,61 @@ from chip8 import Chip8
 
 
 def main():
-    # 1. Init our cpu
+    # 1. Initialize CPU
     cpu = Chip8()
     cpu.init_fontset()
-
-    # Path to your rom
     rom_file = ""
     cpu.load_rom(rom_file)
 
-    # 2. Init pygame
+    # 2. Initialize Pygame
     pygame.init()
-    # Оriginal screen is small so we make it bigger
     SCALE = 10
-    screen = pygame.display.set_mode((64 * SCALE, 32 * SCALE))
+    WIDTH, HEIGHT = 64 * SCALE, 32 * SCALE
+
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Python CHIP-8 Emulator")
 
-    clock = pygame.time.Clock()
-    is_running = True
+    small_buffer = pygame.Surface((64, 32))
+    big_buffer = pygame.Surface((WIDTH, HEIGHT))
 
-    # Main game loop
-    while is_running:
+    clock = pygame.time.Clock()
+    running = True
+
+    key_map = {
+        pygame.K_1: 0x1, pygame.K_2: 0x2, pygame.K_3: 0x3, pygame.K_4: 0xC,
+        pygame.K_q: 0x4, pygame.K_w: 0x5, pygame.K_e: 0x6, pygame.K_r: 0xD,
+        pygame.K_a: 0x7, pygame.K_s: 0x8, pygame.K_d: 0x9, pygame.K_f: 0xE,
+        pygame.K_z: 0xA, pygame.K_x: 0x0, pygame.K_c: 0xB, pygame.K_v: 0xF
+    }
+
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                is_running = False
-
-            # 1 - pressed 2 - not pressed
+                running = False
             elif event.type in [pygame.KEYDOWN, pygame.KEYUP]:
                 state = 1 if event.type == pygame.KEYDOWN else 0
+                if event.key in key_map:
+                    cpu.key[key_map[event.key]] = state
 
-                # Standart Layout of keyboard
-                match event.key:
-                    case pygame.K_1:
-                        cpu.key[0x1] = state
-                    case pygame.K_2:
-                        cpu.key[0x2] = state
-                    case pygame.K_3:
-                        cpu.key[0x3] = state
-                    case pygame.K_4:
-                        cpu.key[0xC] = state
-                    case pygame.K_q:
-                        cpu.key[0x4] = state
-                    case pygame.K_w:
-                        cpu.key[0x5] = state
-                    case pygame.K_e:
-                        cpu.key[0x6] = state
-                    case pygame.K_r:
-                        cpu.key[0xD] = state
-                    case pygame.K_a:
-                        cpu.key[0x7] = state
-                    case pygame.K_s:
-                        cpu.key[0x8] = state
-                    case pygame.K_d:
-                        cpu.key[0x9] = state
-                    case pygame.K_f:
-                        cpu.key[0xE] = state
-                    case pygame.K_z:
-                        cpu.key[0xA] = state
-                    case pygame.K_x:
-                        cpu.key[0x0] = state
-                    case pygame.K_c:
-                        cpu.key[0xB] = state
-                    case pygame.K_v:
-                        cpu.key[0xF] = state
-
+        # CPU execution
         for _ in range(10):
             cpu.cycle()
-        if cpu.delay_timer > 0: cpu.delay_timer -= 1
-        if cpu.sound_timer > 0: cpu.sound_timer -= 1
+        if cpu.delay_timer > 0:
+            cpu.delay_timer -= 1
+        if cpu.sound_timer > 0:
+            cpu.sound_timer -= 1
 
-        screen.fill((0, 0, 0))  # Clear screen by black color
+        small_buffer.fill((0, 0, 0))
 
+        # 2. Draw only white pixels (black is already the background)
         for y in range(32):
             for x in range(64):
-                index = x + (y * 64)
-                # if 1 we fill pixel white color
-                if cpu.video[index] == 1:
-                    pygame.draw.rect(
-                        screen,
-                        (255, 255, 255),  # White color
-                        (x * SCALE, y * SCALE, SCALE, SCALE)
-                    )
+                if cpu.video[y * 64 + x]:
+                    small_buffer.set_at((x, y), (255, 255, 255))
 
+        pygame.transform.scale(small_buffer, (WIDTH, HEIGHT), big_buffer)
+
+        screen.blit(big_buffer, (0, 0))
         pygame.display.flip()
 
         clock.tick(60)
