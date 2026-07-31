@@ -22,6 +22,8 @@ You can find roms in this repo
    
 ## Usage
 ```bash
+  git clone https://github.com/CBSDF/Chip8-Emulator.git
+  cd Chip8-Emulator
   pip install pygame
 ```
 - Enter path to rom in main.py
