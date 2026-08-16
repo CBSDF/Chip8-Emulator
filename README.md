@@ -1,3 +1,5 @@
+[Русская версия](README_RU.md)|English
+
 ## CHIP-8 EMULATOR 
 
 This emulator a standard chip-8 cpu not chip-8 super
