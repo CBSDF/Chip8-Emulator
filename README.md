@@ -39,6 +39,31 @@ run this command
 
 *Running Pong (David Winter, 1997)*
 
-## CHANGELOG 
+## CHANGELOG
 - improved font
-- update rendering
+- updated rendering
+
+## Why did i create it?
+
+This was my first learning project to understand how the emulators work on the  inside
+I started with the  basics like processor cycles, work with memory, fetch opcodes, and rendering graphics
+
+## Who is it for?
+
+For begginers from small regions in Russia and other countries. 
+It was also created to show that even if you want to learn computer science
+but don't have access to specialized schools, you can still learn it
+from open-source projects and websites.
+
+## A small step forward a bigger goal
+
+As i said, this project was also created to understand the basics.
+My next big project will be an emulator of the Apollo Guidance Computer (AGC) -
+and i want to run the original NASA programs on it.
+
+
+
+
+
+
+
